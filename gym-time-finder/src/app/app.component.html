@@ -1,0 +1,9 @@
+
+<div class="navigator">Available times at Campushallen</div>
+<div *ngFor = "let entry of timeSlots">
+  {{ entry.startTime }}
+  {{entry.endTime}}
+  {{entry.availableHalls}}
+  {{entry.availableSlots}}
+
+</div>
