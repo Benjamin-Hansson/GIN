@@ -1,9 +1,24 @@
 
-<div class="navigator">Available times at Campushallen</div>
-<div *ngFor = "let entry of timeSlots">
-  {{ entry.startTime }}
-  {{entry.endTime}}
-  {{entry.availableHalls}}
-  {{entry.availableSlots}}
+<div class="content">
+  <div class="navigator">
+    <h1>Title</h1>
+  </div>
+  <li class="list-container" *ngFor = "let entry of timeSlots">
 
+    <ul *ngIf="dateIsToday(entry.startTime)
+        "class="timeslot"
+        [ngStyle]="{background: getBackgroundColor(entry.availableSlots)}"
+        (click)="toggleExpanded(entry)">
+
+      <div class="time">{{ toReadableTime(entry.startTime) }}-{{ toReadableTime(entry.endTime) }}</div>
+      <div class="available-slots">{{ entry.availableSlots }} halls available</div>
+    </ul>
+    <div class="expanded-view" *ngIf="entry.expanded">
+      <div class="available-hall" *ngFor="let hall of entry.availableHalls">
+        <div class="name" >{{ hall.name }}</div>
+        <div class="available-until" >{{ toReadableTime(hall.availableUntil) }}</div>
+      </div>
+    </div>
+
+  </li>
 </div>
