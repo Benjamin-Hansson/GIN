@@ -26,8 +26,8 @@ export class AppComponent implements OnInit {
 
   title = 'gym-time-finder';
   timeSlots: Array<TimeSlot> = new Array<TimeSlot>();
-  activeDay: string;
   offsetFromToday: number;
+  days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
   constructor(campushallen: CampushallenService){
     campushallen.getFreeTimes().subscribe((response: any) => {
@@ -63,21 +63,38 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(){
-    this.activeDay="Today";
     this.offsetFromToday = 0;
   }
 
   nextDay(){
-    this.offsetFromToday += 1;
+    this.offsetFromToday ++;
   }
   previousDay(){
-    this.offsetFromToday -= 1;
+    if (this.offsetFromToday > 0) this.offsetFromToday --;
+
   }
 
+  getDate(){
+    let activeDay: string = "Today";
+    console.log(this.offsetFromToday);
+    switch (this.offsetFromToday) {
+
+      case 0:
+        activeDay = "Today";
+        break;
+      case 1:
+        activeDay="Tomorrow";
+        break;
+      default:
+        let date= new Date();
+        date.setDate(date.getDate() + this.offsetFromToday);
+        activeDay = this.days[date.getDay()];
+    }
+    return activeDay;
+  }
 
   /**
    * Gets all timeslots for a given day
-   * @param offsetFromToday The offset in days from today
    */
   getSlotsForADay() {
     let chosenDate: Date = new Date();
