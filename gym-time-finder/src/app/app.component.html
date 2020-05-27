@@ -1,16 +1,16 @@
 
 <div class="content">
   <div class="navigator">
-    <h1>Title</h1>
+    <img class="arrow left-arrow" src="../assets/angle-left-solid.svg" alt="" (click)="previousDay()" >
+    <h1 >{{ activeDay }}</h1>
+    <img class="arrow right-arrow" src="../assets/angle-right-solid.svg" alt="" (click)="nextDay()" >
   </div>
-  <li class="list-container" *ngFor = "let entry of timeSlots">
-
-    <ul *ngIf="dateIsToday(entry.startTime)
-        "class="timeslot"
+  <li class="list-container" *ngFor = "let entry of getSlotsForADay()">
+    <ul class="timeslot"
         [ngStyle]="{background: getBackgroundColor(entry.availableSlots)}"
         (click)="toggleExpanded(entry)">
 
-      <div class="time">{{ toReadableTime(entry.startTime) }}-{{ toReadableTime(entry.endTime) }}</div>
+      <div class="time">{{ toReadableTime(entry.startTime) }}</div>
       <div class="available-slots">{{ entry.availableSlots }} halls available</div>
     </ul>
     <div class="expanded-view" *ngIf="entry.expanded">
@@ -19,6 +19,8 @@
         <div class="available-until" >{{ toReadableTime(hall.availableUntil) }}</div>
       </div>
     </div>
-
   </li>
+  <div class="no-available-times" *ngIf="getSlotsForADay().length==0">
+    <p>No times available</p>
+  </div>
 </div>

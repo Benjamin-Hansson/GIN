@@ -7,15 +7,24 @@
   height: 40px;
   display: flex;
   flex-direction: row;
-  align-content: flex-start;
+  align-items: space-between;
   justify-content: center;
   h1 {
+    cursor: default;
     margin: 0px;
     color: rgb(81, 84, 87);
     font-size: 25px;
     display:flex;
     align-items: center;
-    justify-content: center;
+  }
+  .arrow {
+    cursor: pointer;
+  }
+  .left-arrow {
+    margin-right: 15px;
+  }
+  .right-arrow {
+    margin-left: 15px;
   }
 
 }
@@ -81,5 +90,17 @@
     .available-until {
       margin-right: 20px;
     }
+  }
+}
+
+.no-available-times {
+  margin-top: 10px;
+  justify-content: center;
+  align-items: center;
+  p {
+    cursor: default;
+    color: rgb(81, 84, 87);
+    font-size: 20px;
+    text-align: center;
   }
 }

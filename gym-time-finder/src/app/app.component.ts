@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CampushallenService } from "./campushallen.service";
 import { Time, NumberSymbol } from '@angular/common';
 
@@ -22,22 +22,18 @@ export interface TimeSlot {
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   title = 'gym-time-finder';
   timeSlots: Array<TimeSlot> = new Array<TimeSlot>();
-
+  activeDay: string;
+  offsetFromToday: number;
 
   constructor(campushallen: CampushallenService){
     campushallen.getFreeTimes().subscribe((response: any) => {
       console.log("recieved data");
-      console.log(response)
       for(let i: number = 0; i < response.length; i++){
-
         let entry = response[i];
-        if(!this.dateIsToday(entry.duration.start)){
-          break;
-        }
         const start = new Date(entry.duration.start);
         const end = new Date(entry.duration.end);
         const availableSlots = entry.availableSlots
@@ -47,7 +43,7 @@ export class AppComponent {
           let offset: number = 1;
           if(response[i+offset]){
             let next = response[i+offset]
-            while(next &&  next.selectableResources.findIndex(x => x.id == hall.id) !== -1 && this.dateIsToday(next.duration.start)){
+            while(next &&  next.selectableResources.findIndex(x => x.id == hall.id) !== -1 && this.dayIsSame(entry.duration.start, next.duration.start)){
               offset += 1;
               next = response[i+offset];
             }
@@ -66,12 +62,46 @@ export class AppComponent {
     });
   }
 
-  dateIsToday(inputDate: Date){
-    let today: Date = new Date();
-    today.setDate(new Date().getDate()+1);
-    today.setHours(0,0,0,0);
-    let dateCopy = new Date(inputDate);
-    if(dateCopy.setHours(0,0,0,0) === today.setHours(0,0,0,0)){
+  ngOnInit(){
+    this.activeDay="Today";
+    this.offsetFromToday = 0;
+  }
+
+  nextDay(){
+    this.offsetFromToday += 1;
+  }
+  previousDay(){
+    this.offsetFromToday -= 1;
+  }
+
+
+  /**
+   * Gets all timeslots for a given day
+   * @param offsetFromToday The offset in days from today
+   */
+  getSlotsForADay() {
+    let chosenDate: Date = new Date();
+    chosenDate.setDate(chosenDate.getDate() + this.offsetFromToday);
+    let slots:TimeSlot[] = [];
+    for(let entry of this.timeSlots){
+      if(this.dayIsSame(chosenDate, entry.startTime)) {
+        slots.push(entry);
+      }
+
+    }
+    return slots;
+  }
+
+
+  /**
+   * Checks if two dates have the same day
+   * @param first first date
+   * @param second other date
+   */
+  dayIsSame(first: Date, second: Date){
+    let firstCopy = new Date(first);
+    let secondCopy = new Date(second);
+    if(firstCopy.setHours(0,0,0,0) === secondCopy.setHours(0,0,0,0)){
       return true;
     }else {
       return false;
@@ -86,9 +116,15 @@ export class AppComponent {
     let colorsFromRedToGreen:string[] = ["#EB471D", "#EC5C20", "#F19E2B",
      "#F5C133","#FBEA3B", "#EFFE3F", "#D7FD3E", "#BEFC3C", "#A4FB3B",
      "#93FB3A", "#82FA39", "#78FA39" ];
+
+    let h = (120/12)* availableSlots-1;
+    let s = 100;
+    let l = 60;
+    let l2 = 90;
+
     if (availableSlots <= 12){
-      return "linear-gradient(155deg, " + colorsFromRedToGreen[availableSlots-1] +
-            " 0%, rgba(255,255,255,1) 100%)";
+      return "linear-gradient(155deg, hsl("+h+", "+s+"%, "+l+
+            "%) 0%, hsl("+h+", "+s+"%, "+l2+"%) 100%)";
     }else{
       return colorsFromRedToGreen[12];
     }
