@@ -1,5 +1,6 @@
 .content {
   max-width: 700px;
+  height: 100%;
 }
 
 .navigator {
@@ -7,32 +8,28 @@
   height: 40px;
   display: flex;
   flex-direction: row;
-  align-items: space-between;
+  align-items: center;
   justify-content: center;
   .day-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 120px;
+    width: 105px;
     margin: 0;
-    h1 {
-      vertical-align: middle;
-
-      cursor: default;
-      margin: 0px;
-      color: rgb(81, 84, 87);
-      font-size: 25px;
-    }
+    color: rgb(81, 84, 87);
+    font-size: 25px;
+    cursor: default;
   }
 
   .arrow {
     cursor: pointer;
+    height: 40px;
   }
   .left-arrow {
-    margin-right: 15px;
+    margin-right: 40px;
   }
   .right-arrow {
-    margin-left: 15px;
+    margin-left: 40px;
   }
 
 }

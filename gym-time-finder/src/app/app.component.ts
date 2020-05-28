@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
   constructor(campushallen: CampushallenService){
     campushallen.getFreeTimes().subscribe((response: any) => {
       console.log("recieved data");
+      console.log(response);
       for(let i: number = 0; i < response.length; i++){
         let entry = response[i];
         const start = new Date(entry.duration.start);
@@ -76,7 +77,6 @@ export class AppComponent implements OnInit {
 
   getDate(){
     let activeDay: string = "Today";
-    console.log(this.offsetFromToday);
     switch (this.offsetFromToday) {
 
       case 0:

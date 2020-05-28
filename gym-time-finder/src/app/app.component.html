@@ -1,14 +1,17 @@
 
-<div class="content">
+<div class="content"
+  (swipeleft)="nextDay()"
+  (swiperight)="previousDay()">
   <div class="navigator">
     <img class="arrow left-arrow" src="../assets/angle-left-solid.svg" alt="" (click)="previousDay()" >
-    <div class="day-container"><h1 >{{ getDate() }}</h1></div>
+    <div class="day-container">{{ getDate() }}</div>
     <img class="arrow right-arrow" src="../assets/angle-right-solid.svg" alt="" (click)="nextDay()" >
   </div>
-  <li class="list-container" *ngFor = "let entry of getSlotsForADay()">
+  <li class="list-container" *ngFor = "let entry of getSlotsForADay()" >
     <ul class="timeslot"
         [ngStyle]="{background: getBackgroundColor(entry.availableSlots)}"
-        (click)="toggleExpanded(entry)">
+        (click)="toggleExpanded(entry)"
+>
 
       <div class="time">{{ toReadableTime(entry.startTime) }}</div>
       <div class="available-slots">{{ entry.availableSlots }} halls available</div>
