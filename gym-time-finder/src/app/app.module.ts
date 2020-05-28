@@ -1,8 +1,10 @@
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injectable } from '@angular/core';
 import { HttpClientModule } from "@angular/common/http";
 import { AppComponent } from './app.component';
 import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
+
+@Injectable()
 export class MyHammerConfig extends HammerGestureConfig {
   overrides = <any> {
       'pinch': { enable: false },

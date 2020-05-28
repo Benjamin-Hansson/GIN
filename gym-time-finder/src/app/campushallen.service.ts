@@ -16,10 +16,7 @@ export class CampushallenService {
     todayPlus7.setDate(today.getDate()+ 6)
     today.setHours(0,0,0,0);
     todayPlus7.setHours(21,59,59,999)
-    console.log(today.toISOString());
 
-    console.log(todayPlus7.toISOString());
-    this.url = "https://brponline.campushallen.se/grails/api/ver3/products/services/68/suggestions?businessUnit=1&period=2020-05-22T22:00:00.000Z%7C2020-05-29T21:59:59.999Z"
     this.url = "https://brponline.campushallen.se/grails/api/ver3/products/services/68/suggestions?businessUnit=1&period="+today.toISOString()+"%7C" + todayPlus7.toISOString()
 
   }
