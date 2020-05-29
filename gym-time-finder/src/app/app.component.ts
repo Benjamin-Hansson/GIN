@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(){
-    this.offsetFromToday = 0;
+    this.offsetFromToday = 1;
   }
 
   nextDay(){

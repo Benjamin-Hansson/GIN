@@ -19,6 +19,7 @@
 
         <div class="time">{{ toReadableTime(entry.startTime) }}</div>
         <div class="available-slots">{{ entry.availableSlots }} halls available</div>
+        <img class="down-arrow" src="../assets/caret-down-solid.svg" alt="" [ngClass]="{'up-arrow': entry.expanded}">
     </div>
       <div class="expanded-view" *ngIf="entry.expanded">
         <div class="available-hall" *ngFor="let hall of entry.availableHalls">
