@@ -28,9 +28,11 @@ export class AppComponent implements OnInit {
   timeSlots: Array<TimeSlot> = new Array<TimeSlot>();
   offsetFromToday: number;
   days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-
+  requestCompleted: boolean;
   constructor(campushallen: CampushallenService){
+    this.requestCompleted = false;
     campushallen.getFreeTimes().subscribe((response: any) => {
+      this.requestCompleted = true;
       console.log("recieved data");
       console.log(response);
       for(let i: number = 0; i < response.length; i++){
@@ -68,7 +70,8 @@ export class AppComponent implements OnInit {
   }
 
   nextDay(){
-    this.offsetFromToday ++;
+    if ( this.offsetFromToday < 7) this.offsetFromToday ++;
+
   }
   previousDay(){
     if (this.offsetFromToday > 0) this.offsetFromToday --;

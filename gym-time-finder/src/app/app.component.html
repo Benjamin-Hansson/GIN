@@ -3,11 +3,15 @@
   (swipeleft)="nextDay()"
   (swiperight)="previousDay()">
   <div class="navigator sticky">
-    <img class="arrow left-arrow" src="../assets/angle-left-solid.svg" alt="" (click)="previousDay()" >
+    <img class="arrow left-arrow" src="../assets/angle-left-solid.svg" alt="" (click)="previousDay()" [style.opacity]="offsetFromToday===0 ? 0.5: 1">
     <div class="day-container">{{ getDate() }}</div>
-    <img class="arrow right-arrow" src="../assets/angle-right-solid.svg" alt="" (click)="nextDay()" >
+    <img class="arrow right-arrow" src="../assets/angle-right-solid.svg" alt="" (click)="nextDay()" [style.opacity]="offsetFromToday===7 ? 0.5: 1" >
   </div>
   <div class="list-container">
+    <div class="aligner" *ngIf="!requestCompleted">
+      <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </div>
+
     <div class="list-item" *ngFor = "let entry of getSlotsForADay()" >
       <div class="timeslot"
           [ngStyle]="{background: getBackgroundColor(entry.availableSlots)}"
@@ -23,8 +27,9 @@
         </div>
       </div>
     </div>
-    <div class="no-available-times" *ngIf="getSlotsForADay().length==0">
+    <div class="no-available-times" *ngIf="requestCompleted && getSlotsForADay().length==0">
       <p>No times available</p>
     </div>
+
   </div>
 </div>
