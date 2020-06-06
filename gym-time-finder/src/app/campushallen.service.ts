@@ -12,12 +12,12 @@ export class CampushallenService {
   constructor(private http: HttpClient) {
 
     this.url = "https://europe-west3-gym-time-finder.cloudfunctions.net/campushallenSchedule"
-    this.localUrl = "http://localhost:5000/gym-time-finder/europe-west3/campushallenSchedule"
+    this.localUrl = "http://localhost:5001/gym-time-finder/europe-west3/campushallenSchedule"
   }
 
   getFreeTimes(){
 
-    return this.http.get(this.localUrl,{responseType: 'json'});
+    return this.http.get(this.url,{responseType: 'json'});
 
   }
 

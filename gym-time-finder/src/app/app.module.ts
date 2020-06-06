@@ -3,6 +3,8 @@ import { NgModule, Injectable } from '@angular/core';
 import { HttpClientModule } from "@angular/common/http";
 import { AppComponent } from './app.component';
 import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class MyHammerConfig extends HammerGestureConfig {
@@ -19,7 +21,8 @@ export class MyHammerConfig extends HammerGestureConfig {
   imports: [
     BrowserModule,
     HttpClientModule,
-    HammerModule
+    HammerModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     {

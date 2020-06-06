@@ -45,11 +45,18 @@ export class AppComponent implements OnInit {
           let hallEndTime: Date;
           let offset: number = 1;
           if(response[i+offset]){
-            let next = response[i+offset]
-            while(next &&  next.selectableResources.findIndex(x => x.id == hall.id) !== -1 && this.dayIsSame(entry.duration.start, next.duration.start)){
+            let prev = response[i+offset-1];
+            let next = response[i+offset];
+            let prevEnd = new Date(prev.duration.end);
+            let nextBegin = new Date(next.duration.start);
+
+            let difference = nextBegin.getTime() - prevEnd.getTime();
+            console.log(difference)
+            while(next && next.selectableResources.findIndex(x => x.id == hall.id) !== -1 && this.dayIsSame(entry.duration.start, next.duration.start) && difference === -1500000){
               offset += 1;
               next = response[i+offset];
             }
+
             hallEndTime = new Date(response[i+offset-1].duration.end);
           }else {
             hallEndTime = new Date(end);
@@ -66,7 +73,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(){
-    this.offsetFromToday = 1;
+    this.offsetFromToday = 0;
   }
 
   nextDay(){
